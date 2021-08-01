@@ -1,6 +1,8 @@
 /* Speedwagon bot commands
  * This is the file which contains every command used by Speedwagon bot
  */
+const conf = require('./config.json');
+
 const run = (commandObj) => {
 
 	switch (commandObj.tokens[0]) {
@@ -16,7 +18,6 @@ const run = (commandObj) => {
 };
 
 const quote = () => {
-	// TODO: quote system
 	const quotes = [
 		"I hate my life.\n- Scraft161",
 		"Why isn't my code working? (this includes the quote system)\n- Scraft161",
@@ -36,7 +37,10 @@ const quote = () => {
 	];
 	const quoteLen = quotes.length - 1;
 
-	return quotes[Math.round(Math.random() * quoteLen)];
+	return {
+		"type": "message",
+		"content": quotes[Math.round(Math.random() * quoteLen)]
+	};
 };
 
 const rate = (commandObj) => {
@@ -53,7 +57,22 @@ const rate = (commandObj) => {
 };
 
 const source = () => {
-	return "https://github.com/Scraft161/Speedwagon-bot";
+	if (conf.embeds) {	//if embeds are enabled
+		return {
+			"type": "embed",
+			"content": {
+				"title": "Source code",
+				"description": "Find my source code and setup guide by clicking the text above.",
+				"url": "https://github.com/Scraft161/Speedwagon-bot",
+				"type": "link"
+			}
+		};
+	} else {
+		return {
+			"type": "message",
+			"content": "You can find my source code over at: https://github.com/Scraft161/Speedwagon-bot/"
+		};
+	}
 };
 
 module.exports = { run };

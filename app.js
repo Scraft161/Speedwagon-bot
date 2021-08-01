@@ -20,12 +20,30 @@ client.on('message', msg => {
 		// If your module is giving the message below try casting to string before returning.
 		if (typeof(newMsg) == "string") {
 			msg.channel.send(newMsg);
+		} else if (typeof(newMsg) == "object") {	// Unpack object into proper data we can use
+			if (newMsg.type == "message") {	// Simple return messages
+				msg.channel.send(newMsg.content);
+			} else if (newMsg.type == "embed") {	// Embed messages
+				// extract content object from embed and feed it into discord.js embed constructor.
+				msg.channel.send(new Discord.MessageEmbed(newMsg.content));
+				if (conf.betaLogging) {
+					console.log(newMsg.content);
+				}
+			}
 		} else {
 			msg.channel.send("Please excuse me but something went critically wrong, could you try again?");
+			console.log(newMsg);
+		}
+	}
+	if (convertSauce) {
+		if (/^\[[0-9]{3,6}\]$/.test(msg.content)) {
+			msg.channel.send("https://nhentai.net/g/" + msg.content.slice(1, -1) + "/");
 		}
 	}
 });
 
 // Login with the token provided in the config
-console.log("connecting to Discord ...");
+console.log("Taking final preparations.");
+const convertSauce = conf.convertSauce;
+console.log("Connecting to Discord ...");
 client.login(conf.token);
