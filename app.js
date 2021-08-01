@@ -1,10 +1,10 @@
 // Discord libraries
 const Discord = require('discord.js');
-const client = new Discord.Client();
-// Import parser
-//const parser = require('./parser.js');
-// Import config
-const conf = require('./config.json');
+const client  = new Discord.Client();
+// Bot specific libraries
+const parser   = require('./parser.js');		// Parser
+const commands = require('./commands.js');	// Commands list and code
+const conf     = require('./config.json');	// Config
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
@@ -12,55 +12,23 @@ client.on('ready', () => {
 
 client.on('message', msg => {
 	if (msg.content.startsWith(conf.prefix)) {
-		//try {
-			msg.channel.send(parse(tokenize(msg.content)));
-		//} catch (e) {
-			//msg.channel.send("something went wrong, please try again.");
-		//}
+		let newMsg = commands.run(parser.process(msg.content));
+
+		if (typeof(newMsg) == "string") {
+			msg.channel.send(newMsg);
+		} else {
+			msg.channel.send("Please excuse me but something went critically wrong, could you try again?");
+		}
 	}
 });
 
+// Login with the token provided in the config
+console.log("connecting to Discord ...");
 client.login(conf.token);
 
 /*
  * external function issue workaround
 */
-
-// parser
-
-const tokenize = (command) => {
-	let tokens = command.slice(conf.prefix.length).split(' ');
-	return tokens;
-};
-
-const parse = (tokens) => {
-	let hasMagicWord = false;
-	switch (tokens[0]) {
-		case "quote":
-			return /*quote(tokens[1])*/ "Why isn't my code working? (this includes the quote system)\n- Scraft161";
-		case "rate":
-			tokens.forEach((item, i) => {
-				if (tokens[i].includes("Jonathan")) {
-					hasMagicWord = true;
-				}
-			});
-
-			tokens.shift();
-
-			if (hasMagicWord) {
-				return "I would rate " + tokens.join(' ') + " over 10/10.";
-			} else {
-				const rated = Math.round(Math.random() * 10);
-				if (rated == 8) {
-					return "I would rate " + tokens.join(' ') + " an " + rated + "/10";
-				} else {
-					return "I would rate " + tokens.join(' ') + " a " + rated + "/10";
-				}
-			}
-		default:
-			return "I'm sorry my good sir, but I do not know what you want to do.";
-	}
-};
 
 // commands
 /*

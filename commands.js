@@ -1,37 +1,33 @@
-/* Speedwagon bot command workaround
- * This is a temporary workaround to register slash commands until discord.js 13.x is available
+/* Speedwagon bot commands
+ * This is the file which contains every command used by Speedwagon bot
  */
+const run = (commandObj) => {
 
-// inport library to allow registering slash commands
-const DiscordInteractions = require("slash-commands");
-// Import config
-const conf = require('./config.json');
+	switch (commandObj.tokens[0]) {
+		case "quote":
+			return /*quote(tokens[1])*/ "Why isn't my code working? (this includes the quote system)\n- Scraft161";
+		case "rate":
+			return rate(commandObj);
+		default:
+			return "I'm sorry, but I do not know what you want to do.";
+	}
+};
 
-const init = () => {
-// pass config data to interactions API (should be pulled from config.json)
-	const interaction = new DiscordInteractions({
-		applicationId: conf.id,
-		authToken: conf.token,
-		publicKey: conf.key
-	})
-}
-// init to register all commands and check if registered commands are up-to-date with local list
+/*const quote = (commandObj) => {
+	// TODO: quote system
+}*/
 
-const register = async () => {
-	// get commands list
-	await interaction
-		.getApplicationCommands()
-		.then(console.log)
-		.catch(console.error);
+const rate = (commandObj) => {
+	if (commandObj.argStr.includes("Jonathan")) {
+		return "I would rate " + commandObj.argStr + " over 10/10.";
+	} else {
+		const rated = Math.round(Math.random() * 10);
+		if (rated == 8) {
+			return "I would rate " + commandObj.argStr + " an " + rated + "/10";
+		} else {
+			return "I would rate " + commandObj.argStr + " a " + rated + "/10";
+		}
+	}
+};
 
-	const cmdQuote = {
-		name: "quote",
-		description: "Get a quote"
-	};
-
-	// create commands
-	await interaction
-		.createApplicationCommand(cmdQuote)
-		.then(console.log)
-	.catch(console.error);
-}
+module.exports = { run };

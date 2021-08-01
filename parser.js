@@ -1,44 +1,23 @@
 /* parser
+ * Convert user input into workable data for commands.js
 */
-module.exports = { run };
-
 const conf = require('./config.json');
 
-const run = (command) => {
-	tokenize(command);
-	parse();
+// Run governs the tokenizing and parsing process of the incoming string
+// It should also handle input sanitation (TODO)
+const process = (command) => {
+	return parse(command);
 };
 
-const tokenize = (command) => {
+const parse = (command) => {
 	let tokens = command.slice(conf.prefix.length).split(' ');
-	return tokens;
+
+	let argStr = command.slice(conf.prefix.length + tokens[0].length + 1);
+
+	return {
+		tokens,
+		argStr
+	};
 };
 
-const parse = (tokens) => {
-	let hasMagicWord = false;
-	switch (tokens[0]) {
-		case "quote":
-			return /*quote(tokens[1])*/ "Why isn't my code working? (this includes the quote system)\n- Scraft161";
-		case "rate":
-			tokens.forEach((item, i) => {
-				if (tokens[i].includes("Jonathan")) {
-					hasMagicWord = true;
-				}
-			});
-
-			tokens.shift();
-
-			if (hasMagicWord) {
-				return "I would rate " + tokens.join(' ') + " over 10/10.";
-			} else {
-				const rated = Math.round(Math.random() * 10);
-				if (rated == 8) {
-					return "I would rate " + tokens.join(' ') + " an " + rated + "/10";
-				} else {
-					return "I would rate " + tokens.join(' ') + " a " + rated + "/10";
-				}
-			}
-		default:
-			return "I'm sorry my good sir, but I do not know what you want to do.";
-	}
-};
+module.exports = { process };
