@@ -1,20 +1,60 @@
 /* Speedwagon bot commands
  * This is the file which contains every command used by Speedwagon bot
  */
+// Import config file
 const conf = require('./config.json');
+// We have the audio module somewhere else
+const audio = require('./audio.js');
 
 const run = (commandObj) => {
 
 	switch (commandObj.tokens[0]) {
+		case "help":
+			return help(commandObj);
 		case "quote":
 			return quote();
 		case "rate":
 			return rate(commandObj);
 		case "source":
 			return source();
+		case "music":
+			if (conf.audio.enabled) {
+				return audio.run(commandObj);
+			} else {
+				return "Music and audio playback has been disabled by the bot host.";
+			}
 		default:
-			return "I'm sorry, but I do not know what you want to do.";
+			return unknown();
 	}
+};
+
+const help = (commandObj) => {
+	// define all help infos
+	// TODO: this
+	const info = {
+		"help": "allow me to provide you with the help you need",
+		"quote": "Make me quote a JoJo character",
+		"rate": "allow me to rate anything you want",
+		"source": "let me link to the source code"
+	};
+	// if arguments list is empty return all commands
+	if (commandObj.argStr == "") {
+		return {
+			"type": "embed",
+			"content": {
+				"title": "Help",
+				"description": "quote: make me quote a JoJo character\nrate: allow me to rate anything you want\nsource: let me link to the source code"
+			}
+		};
+	} else if (commandObj.tokens[1] == "quote") {
+		return {
+			"type": "embed",
+			"content": info.quote
+		};
+	}
+	// else return help about a specific function
+	// running help on itself should function like man man
+
 };
 
 const quote = () => {
@@ -72,6 +112,22 @@ const source = () => {
 			"type": "message",
 			"content": "You can find my source code over at: https://github.com/Scraft161/Speedwagon-bot/"
 		};
+	}
+};
+
+// TODO: add feature that downloads reddit videos and posts them as Discord ones
+
+/*
+ * End of internal module chain
+*/
+
+const unknown = (commandObj) => {
+	// code to run when the given command could not be found or when arguments are used incorrectly
+	switch (commandObj) {
+		case "":
+			return "I'm sorry, but I do not know what you want to do.";
+		default:
+
 	}
 };
 

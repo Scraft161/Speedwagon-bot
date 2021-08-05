@@ -28,7 +28,10 @@ example config:
 {
   "token": "",
   "prefix": ",",
-  "embeds": true
+  "embeds": true,
+  "audio": {
+    "enabled": false
+  }
 }
 ```
 

@@ -8,7 +8,10 @@ const conf     = require('./config.json');	// Config
 
 // Show a message when the bot is ready
 client.on('ready', () => {
+	// Notify in console that the bot is live
 	console.log(`Logged in as ${client.user.tag}!`);
+	// Set activity status
+	
 });
 
 // message handler
