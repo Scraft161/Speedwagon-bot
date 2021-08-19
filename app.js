@@ -32,7 +32,14 @@ client.on('message', msg => {
 				if (conf.betaLogging) {
 					console.log(newMsg.content);
 				}
+			} else if (newMsg.type == "error") {	// If there is internal error handling it can pack into an embed for us
+				const intErr = new Discord.MessageEmbed(newMsg.content);	// create embed from packed data
+				msg.channel.send("We ran into an error while executing your command" + intErr);
+			} else {
+				msg.channel.send("Err: message returned by module is of unknown type `" + newMsg.type + "`, expected `message`, `embed`, or `error`");
 			}
+		} else if (typeof(newMsg) == "integer") {	// TODO: check if returned value is not zero
+			msg.channel.send("The module you tried to use returned an error `code: " + newMsg + "`.");
 		} else {
 			msg.channel.send("Please excuse me but something went critically wrong, could you try again?");
 			console.log(newMsg);
