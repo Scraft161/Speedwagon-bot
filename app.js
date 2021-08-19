@@ -2,7 +2,7 @@
 const Discord = require('discord.js');
 const client  = new Discord.Client();
 // Bot specific libraries
-const parser   = require('./parser.js');		// Parser
+const parser   = require('./parser.js');	// Parser
 const commands = require('./commands.js');	// Commands list and code
 const conf     = require('./config.json');	// Config
 

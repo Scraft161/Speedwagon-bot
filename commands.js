@@ -3,8 +3,11 @@
  */
 // Import config file
 const conf = require('./config.json');
+// TODO: load modules only when enabled to speed up load times
 // We have the audio module somewhere else
-const audio = require('./audio.js');
+const audio = require('./audio.js');	// Audio should be moved to modules/ for parity
+// All reddit specific stuff
+const reddit = require('./modules/reddit.js');
 
 const run = (commandObj) => {
 
@@ -22,6 +25,15 @@ const run = (commandObj) => {
 				return audio.run(commandObj);
 			} else {
 				return "Music and audio playback has been disabled by the bot host.";
+			}
+		case "reddit":
+			if (conf.reddit.enabled) {	// Global reddit toggle
+				return reddit.run(commandObj);
+			} else {
+				return {
+					"type": "message",
+					"content": "Reddit image querrying has been disabled by the bot host."
+				};
 			}
 		default:
 			return unknown();
