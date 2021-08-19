@@ -2,7 +2,7 @@
 const Discord = require('discord.js');
 const client  = new Discord.Client();
 // Bot specific libraries
-const parser   = require('./parser.js');		// Parser
+const parser   = require('./parser.js');	// Parser
 const commands = require('./commands.js');	// Commands list and code
 const conf     = require('./config.json');	// Config
 
@@ -11,7 +11,7 @@ client.on('ready', () => {
 	// Notify in console that the bot is live
 	console.log(`Logged in as ${client.user.tag}!`);
 	// Set activity status
-	
+
 });
 
 // message handler
@@ -24,7 +24,7 @@ client.on('message', msg => {
 		if (typeof(newMsg) == "string") {
 			msg.channel.send(newMsg);
 		} else if (typeof(newMsg) == "object") {	// Unpack object into proper data we can use
-			if (newMsg.type == "message") {	// Simple return messages
+			if (newMsg.type == "message") {			// Simple return messages
 				msg.channel.send(newMsg.content);
 			} else if (newMsg.type == "embed") {	// Embed messages
 				// extract content object from embed and feed it into discord.js embed constructor.
