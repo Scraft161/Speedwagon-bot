@@ -3,11 +3,14 @@
  */
 // Import config file
 const conf = require('./config.json');
-// We have the audio module somewhere else
-const audio = require('./audio.js');
+// Optional external commands, these can be enabled in config.json
+if (config.audio.enabled) {
+	const audio = require('./audio.js');
+}
 
 const run = (commandObj) => {
 
+	// main command selector, define your commands here.
 	switch (commandObj.tokens[0]) {
 		case "help":
 			return help(commandObj);
@@ -127,7 +130,11 @@ const unknown = (commandObj) => {
 		case "":
 			return "I'm sorry, but I do not know what you want to do.";
 		default:
-
+			if (!config.commandObj.enabled) {
+				return: "I'm sorry, but this module has been disabled by the bot operator."
+			} else {
+				return "I'm sorry, but I am unfamiliar with " + commandObj + ""
+		}	
 	}
 };
 
