@@ -1,6 +1,7 @@
 // Discord integration libraries
-const Discord = require('discord.js');
+const Discord = require('discord.js');		// Discord API wrapper
 const client  = new Discord.Client();
+
 // Bot specific libraries
 const parser   = require('./parser.js');	// Parser
 const commands = require('./commands.js');	// Commands list and code
