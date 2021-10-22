@@ -23,6 +23,7 @@ client.on('message', msg => {
 		// In order to prevent some crashes we filter out messages that aren't of type string.
 		// If your module is giving the message below try casting to string before returning.
 		if (typeof(newMsg) == "string") {
+			console.log("[WARN]: Using string as return type is only supposed to be used for testing purposes and may be removed in the future, Please use objects to enable extra features");
 			msg.channel.send(newMsg);
 		} else if (typeof(newMsg) == "object") {	// Unpack object into proper data we can use
 			if (newMsg.type == "message") {			// Simple return messages
