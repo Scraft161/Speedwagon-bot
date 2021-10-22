@@ -42,13 +42,20 @@ const help = (commandObj) => {
 	};
 	// if arguments list is empty return all commands
 	if (commandObj.argStr == "") {
-		return {
-			"type": "embed",
-			"content": {
-				"title": "Help",
-				"description": "quote: make me quote a JoJo character\nrate: allow me to rate anything you want\nsource: let me link to the source code"
+		if (config.embeds) {
+			return {
+				"type": "embed",
+				"content": {
+					"title": "Help",
+					"description": "quote: make me quote a JoJo character\nrate: allow me to rate anything you want\nsource: let me link to the source code"
+				}
+			};
+		} else {
+			return {
+				"type": "message",
+				"content": "**Help**:\n\nQuote: Make me quote a JoJo character\nRate: Allow me to rate anything you want\nSource: Let me link to the source code"
 			}
-		};
+		}
 	} else if (commandObj.tokens[1] == "quote") {
 		return {
 			"type": "embed",
@@ -80,10 +87,19 @@ const quote = () => {
 	];
 	const quoteLen = quotes.length - 1;
 
-	return {
-		"type": "message",
-		"content": quotes[Math.round(Math.random() * quoteLen)]
-	};
+	if (config.embeds) {
+		return {
+			"type": "embed",
+			"content": quotes[Math.round(Math.random() * quoteLen)]
+		};
+	} else {
+		return {
+			"type": "message",
+			"content": {
+				"title": "Quote",
+				"description": quotes[Math.round(Math.random() * quoteLen)]
+		}
+	}
 };
 
 const rate = (commandObj) => {
