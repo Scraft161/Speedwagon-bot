@@ -103,14 +103,30 @@ const quote = () => {
 };
 
 const rate = (commandObj) => {
+	let formedString;
 	if (commandObj.argStr.includes("Jonathan")) {
-		return "I would rate " + commandObj.argStr + " over 10/10.";
+		formedString = "I would rate " + commandObj.argStr + " over 10/10.";
 	} else {
 		const rated = Math.round(Math.random() * 10);
 		if (rated == 8) {
-			return "I would rate " + commandObj.argStr + " an " + rated + "/10";
+			formedString = "I would rate " + commandObj.argStr + " an " + rated + "/10";
 		} else {
-			return "I would rate " + commandObj.argStr + " a " + rated + "/10";
+			formedString = "I would rate " + commandObj.argStr + " a " + rated + "/10";
+		}
+	}
+
+	// return proper object based on config
+	if (conf.embeds) {
+		return {
+			"type": "embed",
+			"content": {
+				"description": formedString
+			}
+		}
+	} else {
+		return {
+			"type": "message",
+			"content": formedString
 		}
 	}
 };
