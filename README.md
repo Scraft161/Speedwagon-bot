@@ -49,12 +49,11 @@ PS: if it's Jonathan related he might not be objective about it.
 Adding your own features is simple.
 
 1. open `commands.js`
-2. add a new function at the bottom making sure the text you want to send is returned by the function (as type sting)
+2. add a new function at the bottom making sure the text you want to send is a properly formatted JSON object.
 3. add your function to the switch statement.
 4. done! enjoy your new feature.
 
-if you want to send embeds you need to return an object.
-this object should be constructed using the following template:
+if you want embeds the object should be constructed using the following template:
 ```json
 {
   "type": "embed",
@@ -67,14 +66,15 @@ this object should be constructed using the following template:
 you can find a list of every field you can use [here](https://discord.js.org/#/docs/main/stable/class/MessageEmbed).
 (every writable property can be used)
 
-you can also use this method to return normal text (the proper way).
-doing this can be done using the following template:
+returning text can be done using the following template:
 ```json
 {
   "type": "message",
   "content": "text to return goes here"
 }
 ```
+
+You can also just return a string, but this will be phased out in the near future.
 
 ## copying
 
